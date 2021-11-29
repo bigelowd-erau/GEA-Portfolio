@@ -38,14 +38,11 @@ These principles establish practices that lend to developing software with consi
 SOLID stands for:
 
     S - Single-responsiblity Principle
-    
     O - Open-closed Principle
-
     L - Liskov Substitution Principle
-    
     I - Interface Segregation Principle
-
     D - Dependency Inversion Principle
+    
 ### S: Single Responsibility
 **"A class should have one and only one reason to change, meaning that a class should have only one job."**
 
@@ -109,3 +106,4 @@ public class RayProviderSwitcher : Switcher
 
 "_Originally devised by Barbara Liskov, this principle can be a bit difficult to understand. At its core, it means that “subclasses should add to a base class’s behavior, not replace it.” Ideally, parent instances should be able to replace their child instances without creating any unexpected or mysterious behavior._"
 
+This tutorial project focused more on Interface Segregation than Liskov's Substitution Principle. As such there are no parent child classes where the child adds to the parent behavior but does not change it. In retrospect the Switcher class and child implementations violate this prinicple. Something that would be greate for a refactor to bring the project more inline with SOLID principles.

@@ -34,7 +34,14 @@ This project was made to showcase SOLID design pardigm.
 
 ### S: Single Responsibility
 "There should never be more than one reason for a class to change."
+
 "A class should have one and only one reason to change, meaning that a class should have only one job."
+
+The [MouseScreenRayProvider](https://github.com/bigelowd-erau/SOLID_E/blob/main/SOLID%20Project/Assets/_Project/Scripts/RayProviders/MouseScreenRayProvider.cs) script only handles creating a ray from the center of the viewport.
+
+It does not handle how to cast the ray or what to do with the ray once its cast. It doesn't handle other ways of creating rays.
+
+The only reason this class will ever need to change is if the way providing a rayfrom the center of the screen needs to change.
 ```markdown
 //Creates 1 ray pointing from center of the viewport in the direction of the viewport
 public class MouseScreenRayProvider : MonoBehaviour, IRayProvider

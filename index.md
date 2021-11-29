@@ -203,3 +203,43 @@ public class CircleMouseScreenRayProvider : MonoBehaviour, IRayProvider
     }
 }
 ```
+### Dependency Inversion principle
+**"“Depend upon Abstractions. Do not depend upon concretions.”"**
+
+"_This principle suggests that higher-level modules should not depend on lower-level modules. The majority of dependencies should be on abstractions from both the higher-level and lower-level modules as well as details._"
+
+This goes right along with the interface segregation principle where any place a certain type of class was required the code only ever requested the interface that includes the functionality it needs. This is seen across the program includeing in the previous Composite Ray Provider class where it maintained a list of Ray Provider Interfaces, but did not know anything about the concrete  implementation.
+
+Another example in the code is  thte [SelectionManager](https://github.com/bigelowd-erau/SOLID_E/blob/main/SOLID%20Project/Assets/_Project/Scripts/SelectionManager.cs) where upon startup it got components it needed by looking for an interface type and getting the concrete it found that implemented that interface. It then would on update call the generic functions provided by those interfaces and have the concrete class it found handle the functionality. The key note is that selsection manager knows nothing about the concrete class it retrieved only the abstract functions it can call to that class through the interface.
+```markdown
+public class SelectionManager : MonoBehaviour
+{
+    private ISelectionResponse _selectionResponse;
+    private IRayProvider _rayProvider;
+    private ISelector _selector;
+    private Transform _currentSelection;
+
+    private void Awake()
+    {
+        //get first child's selection response this will be the composite
+        _selectionResponse = GetComponentsInChildren<ISelectionResponse>()[0];
+        //get first child's ray provider this will be the composite
+        _rayProvider = GetComponentsInChildren<IRayProvider>()[0];
+        //get first child's selector this will be the composite
+        _selector = GetComponentsInChildren<ISelector>()[0];
+    }
+
+    private void Update()
+    {
+        if (_currentSelection != null) _selectionResponse.OnDeselect(_currentSelection);
+
+        _selector.Check(_rayProvider.CreateRay());
+
+        _currentSelection = _selector.GetSelection();
+
+        if (_currentSelection != null) _selectionResponse.OnSelect(_currentSelection);
+    }   
+}
+```
+# Replay
+[This production assignment](https://github.com/bigelowd-erau/Replay) was a display of the command log by recording the input commands of the user and then re-calling those commands in a replay of the scene.

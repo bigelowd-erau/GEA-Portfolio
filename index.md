@@ -29,8 +29,7 @@ Syntax highlighted code block
 For more details see [Basic writing and formatting syntax](https://docs.github.com/en/github/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax).
 
 ## SOLID Design Principles
-[Link to project](https://github.com/bigelowd-erau/SOLID_E)
-This project was made to showcase SOLID design pardigm.
+[This project](https://github.com/bigelowd-erau/SOLID_E) was made to showcase SOLID design pardigm.
 
 ### S: Single Responsibility
 **"A class should have one and only one reason to change, meaning that a class should have only one job."**

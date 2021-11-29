@@ -33,9 +33,8 @@ For more details see [Basic writing and formatting syntax](https://docs.github.c
 This project was made to showcase SOLID design pardigm.
 
 ### S: Single Responsibility
-"There should never be more than one reason for a class to change."
-
-"A class should have one and only one reason to change, meaning that a class should have only one job."
+**"A class should have one and only one reason to change, meaning that a class should have only one job."**
+""_This principle encourages complicated classes to be divided into smaller classes that have explicit responsibilities. While this may seem like a fairly straight forward principle to follow, it is often difficult to put into practice if a class’s responsibility isn’t immediately clear. Martin has helped us capture the responsibility of a class by arguing that responsibility is a “reason to change.” Thus, you can identify bad design when there are multiple entities that change for different reasons._""
 
 The [MouseScreenRayProvider](https://github.com/bigelowd-erau/SOLID_E/blob/main/SOLID%20Project/Assets/_Project/Scripts/RayProviders/MouseScreenRayProvider.cs) script only handles creating a ray from the center of the viewport.
 
@@ -54,4 +53,6 @@ public class MouseScreenRayProvider : MonoBehaviour, IRayProvider
     }
 }
 ```
-
+### O: Open/Closed Principle
+**"Objects or entities should be open for extension but closed for modification."**
+"_Simply put, this principle requires that modules should be written so that they can be extended, without requiring them to be modified. This seems contradictory at first, but the key to making this work is by adequately using abstraction techniques. Proper abstractions allow for features to be added by adding new code and not changing the original codebase. You aren’t likely to break working code if you don’t have to change it._""

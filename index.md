@@ -33,7 +33,19 @@ For more details see [Basic writing and formatting syntax](https://docs.github.c
 
 The [playable version](https://bigelowd-erau.github.io/SOLID_E/) is available through github pages.
 
+These principles establish practices that lend to developing software with considerations for maintaining and extending as the project grows. Adopting these practices can also contribute to avoiding code smells, refactoring code, and Agile or Adaptive software development.
 
+SOLID stands for:
+
+    S - Single-responsiblity Principle
+    
+    O - Open-closed Principle
+
+    L - Liskov Substitution Principle
+    
+    I - Interface Segregation Principle
+
+    D - Dependency Inversion Principle
 ### S: Single Responsibility
 **"A class should have one and only one reason to change, meaning that a class should have only one job."**
 

@@ -34,6 +34,7 @@ This project was made to showcase SOLID design pardigm.
 
 ### S: Single Responsibility
 **"A class should have one and only one reason to change, meaning that a class should have only one job."**
+
 ""_This principle encourages complicated classes to be divided into smaller classes that have explicit responsibilities. While this may seem like a fairly straight forward principle to follow, it is often difficult to put into practice if a class’s responsibility isn’t immediately clear. Martin has helped us capture the responsibility of a class by arguing that responsibility is a “reason to change.” Thus, you can identify bad design when there are multiple entities that change for different reasons._""
 
 The [MouseScreenRayProvider](https://github.com/bigelowd-erau/SOLID_E/blob/main/SOLID%20Project/Assets/_Project/Scripts/RayProviders/MouseScreenRayProvider.cs) script only handles creating a ray from the center of the viewport.
@@ -55,4 +56,37 @@ public class MouseScreenRayProvider : MonoBehaviour, IRayProvider
 ```
 ### O: Open/Closed Principle
 **"Objects or entities should be open for extension but closed for modification."**
+
 "_Simply put, this principle requires that modules should be written so that they can be extended, without requiring them to be modified. This seems contradictory at first, but the key to making this work is by adequately using abstraction techniques. Proper abstractions allow for features to be added by adding new code and not changing the original codebase. You aren’t likely to break working code if you don’t have to change it._""
+
+The [Switcher](https://github.com/bigelowd-erau/SOLID_E/blob/main/SOLID%20Project/Assets/_Project/Scripts/Switchers/Switcher.cs) class enables a changeable object to go to the next state based on a keycode input.
+
+Though the issue it would be good to assign a specific keycode based on what type of changeable object is being switched. Instead of dumping the logic into the Switcher class there are extensions to the switcher class that sets the keycode that triggers the next function for each type of switcher that will be needed: such as the [RayProviderSwitcher](https://github.com/bigelowd-erau/SOLID_E/blob/main/SOLID%20Project/Assets/_Project/Scripts/Switchers/RayProviderSwitcher.cs).
+```markdown
+//enables switching to next of a changeable type
+public abstract class Switcher : MonoBehaviour
+{
+    //both are provided by the concrete child implementation
+    internal IChangeable changeableObject;
+    internal KeyCode nextKeyCode;
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(nextKeyCode))
+        {
+            changeableObject.Next();
+        }
+    }
+}
+```
+```markdown
+//enables switching to next of a ray provider type
+public class RayProviderSwitcher : Switcher
+{
+    private void Start()
+    {
+        nextKeyCode = KeyCode.Alpha2;
+        changeableObject = GetComponent<IChangeable>();
+    }
+}
+```

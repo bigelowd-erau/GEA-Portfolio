@@ -29,7 +29,10 @@ Syntax highlighted code block
 For more details see [Basic writing and formatting syntax](https://docs.github.com/en/github/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax).
 
 ## SOLID Design Principles
-[This project](https://github.com/bigelowd-erau/SOLID_E) was made to showcase SOLID design pardigm.
+[This project](https://github.com/bigelowd-erau/SOLID_E) was made to showcase SOLID design principles, and based on [Infallible Code's Tutorial](https://www.youtube.com/watch?v=QDldZWvNK_E).
+
+The [playable version](https://bigelowd-erau.github.io/SOLID_E/) is available through github pages.
+
 
 ### S: Single Responsibility
 **"A class should have one and only one reason to change, meaning that a class should have only one job."**
@@ -89,3 +92,8 @@ public class RayProviderSwitcher : Switcher
     }
 }
 ```
+## Liskov's Substitution Principle
+**“Subclasses should be substitutable for their base classes.”**
+
+"_Originally devised by Barbara Liskov, this principle can be a bit difficult to understand. At its core, it means that “subclasses should add to a base class’s behavior, not replace it.” Ideally, parent instances should be able to replace their child instances without creating any unexpected or mysterious behavior._"
+

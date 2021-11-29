@@ -33,6 +33,8 @@ For more details see [Basic writing and formatting syntax](https://docs.github.c
 This project was made to showcase SOLID design pardigm.
 
 ### S: Single Responsibility
+"There should never be more than one reason for a class to change."
+"A class should have one and only one reason to change, meaning that a class should have only one job."
 ```markdown
 //Creates 1 ray pointing from center of the viewport in the direction of the viewport
 public class MouseScreenRayProvider : MonoBehaviour, IRayProvider

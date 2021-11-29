@@ -101,9 +101,105 @@ public class RayProviderSwitcher : Switcher
     }
 }
 ```
-## Liskov's Substitution Principle
+### Liskov's Substitution Principle
 **“Subclasses should be substitutable for their base classes.”**
 
 "_Originally devised by Barbara Liskov, this principle can be a bit difficult to understand. At its core, it means that “subclasses should add to a base class’s behavior, not replace it.” Ideally, parent instances should be able to replace their child instances without creating any unexpected or mysterious behavior._"
 
 This tutorial project focused more on Interface Segregation than Liskov's Substitution Principle. As such there are no parent child classes where the child adds to the parent behavior but does not change it. In retrospect the Switcher class and child implementations violate this prinicple. Something that would be greate for a refactor to bring the project more inline with SOLID principles.
+### Interface Segregation Principle
+**“Many client-specific interfaces are better than one general-purpose interface.”**
+
+**"A client should never be forced to implement an interface that it doesn’t use, or clients shouldn’t be forced to depend on methods they do not use."**
+
+"_It is better to break down main classes into smaller more specific classes rather than try to maintain one large generalized class. This way, the class’ clients aren’t relying on methods that they don’t use._"
+
+This project relied heavily on this principle as everything was based on interfaces and passing them to classes instead of a concrete class.
+
+This project had four interfaces that worked in conjunction: [IChangeable](https://github.com/bigelowd-erau/SOLID_E/blob/main/SOLID%20Project/Assets/_Project/Scripts/Interfaces/IChangeable.cs), [IRayProvider](https://github.com/bigelowd-erau/SOLID_E/blob/main/SOLID%20Project/Assets/_Project/Scripts/Interfaces/IRayProvider.cs), [ISelectionResponse](https://github.com/bigelowd-erau/SOLID_E/blob/main/SOLID%20Project/Assets/_Project/Scripts/Interfaces/ISelectionResponse.cs), and [ISelector](https://github.com/bigelowd-erau/SOLID_E/blob/main/SOLID%20Project/Assets/_Project/Scripts/Interfaces/ISelector.cs).
+
+The IChangeable was responsible for enabling switching between the concrete class that would be used per a specific type.
+
+The Composite classes were the use for this where it also used one of the other interfaces, i.e. the IRayProvider, and enabled the swithing between what Ray Provider was currently being used. Due to Interface Segregation the [Composite Ray Provider](https://github.com/bigelowd-erau/SOLID_E/blob/main/SOLID%20Project/Assets/_Project/Scripts/RayProviders/CompositeRayProvider.cs) was able to be subsituted as a RayProvider and delegate the functionality down to another Ray Provider based on which it had selected.
+```markdown
+public interface IRayProvider
+{
+    Stack<Ray> CreateRay();
+}
+```
+```markdown
+//Enables the switching between different Ray Providers
+public class CompositeRayProvider : MonoBehaviour, IRayProvider, IChangeable
+{
+    private List<IRayProvider> rayProviders;
+    int _currentIndex = 0;
+    Text label;
+    public void Start()
+    {
+        //the possible ray providers are stored in a child GameObject called "RayProviderHolder"
+        rayProviders = transform.GetComponentsInChildren<IRayProvider>().ToList();
+        //Remove first element since it will be this CompositeRayProvider
+        rayProviders.RemoveAt(0);
+
+        label = GameObject.FindGameObjectWithTag("RayProviderLabel").GetComponent<Text>();
+        //Update UI label on awake
+        label.text = rayProviders[_currentIndex].GetType().ToString();
+    }
+
+    public Stack<Ray> CreateRay()
+    {
+        if (HasSelection())
+            return rayProviders[_currentIndex].CreateRay();
+        return null;
+    }
+    public void Next()
+    {
+        _currentIndex = (_currentIndex + 1) % rayProviders.Count;
+        //Update UI
+        label.text = rayProviders[_currentIndex].GetType().ToString();
+    }
+    private bool HasSelection()
+    {
+        return _currentIndex > -1 && _currentIndex < rayProviders.Count;
+    }
+}
+```
+```markdown
+//Creates 1 ray pointing from center of the viewport in the direction of the viewport
+public class MouseScreenRayProvider : MonoBehaviour, IRayProvider
+{
+    public Stack<Ray> CreateRay()
+    {
+        Stack<Ray> ray = new Stack<Ray>();
+        ray.Push(Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0)));
+        return ray;
+    }
+}
+```
+```markdown
+//Creates samplesize rays in a circle orbiting around the center of the viewport in the direction of the viewport
+public class CircleMouseScreenRayProvider : MonoBehaviour, IRayProvider
+{
+    private float curAngle = 0.0f;
+    private int sampleSize = 100;
+    private float dAngle;
+    private float radius = 0.02f;
+
+    private void Awake()
+    {
+        dAngle = 360 / sampleSize;
+    }
+
+    public Stack<Ray> CreateRay()
+    {
+        Stack<Ray> rays = new Stack<Ray>();
+        for (int i = 0; i < sampleSize; ++i)
+        {
+            rays.Push(Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0) + new Vector3(Mathf.Sin(curAngle), Mathf.Cos(curAngle), 0) * radius));
+            curAngle += dAngle;
+        }
+        curAngle = 0;
+        return rays;
+    }
+}
+```

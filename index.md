@@ -28,10 +28,10 @@ Syntax highlighted code block
 
 For more details see [Basic writing and formatting syntax](https://docs.github.com/en/github/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax).
 
-##SOLID Design Principles
+## SOLID Design Principles
 [Link to project](https://github.com/bigelowd-erau/SOLID_E)
 This project was made to showcase SOLID design pardigm.
 
-###S: Single Responsibility
+### S: Single Responsibility
 Every
 
